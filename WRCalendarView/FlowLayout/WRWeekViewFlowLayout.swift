@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import DateToolsSwift
 
 protocol WRWeekViewFlowLayoutDelegate {
     func collectionView(_ collectionView: UICollectionView, layout: WRWeekViewFlowLayout, dayForSection section: Int) -> Date
@@ -89,14 +88,14 @@ class WRWeekViewFlowLayout: UICollectionViewFlowLayout {
     func initialize() {
         hourHeight = 50
         rowHeaderWidth = 50
-        columnHeaderHeight = 50
+        columnHeaderHeight = 65
         hourGridDivisionValue = .minutes_20
         
         initializeMinuteTick()
     }
     
     func initializeMinuteTick() {
-        minuteTimer = Timer(fireAt: Date() + 1.minutes, interval: TimeInterval(60), target: self, selector: #selector(minuteTick), userInfo: nil, repeats: true)
+        minuteTimer = Timer(fireAt: Date().add(components: [.minute: 1]), interval: TimeInterval(60), target: self, selector: #selector(minuteTick), userInfo: nil, repeats: true)
         RunLoop.current.add(minuteTimer!, forMode: .defaultRunLoopMode)
     }
 

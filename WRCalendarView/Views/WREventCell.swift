@@ -11,6 +11,9 @@ import UIKit
 class WREventCell: UICollectionViewCell {
     @IBOutlet weak var borderView: UIView!
     @IBOutlet weak var titleLabel: UILabel!
+    
+    private var viewColor: UIColor! = .blue
+    private var textColor: UIColor! = .white
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -19,8 +22,6 @@ class WREventCell: UICollectionViewCell {
         layer.shadowOffset = CGSize(width: 0, height: 4)
         layer.shadowRadius = 5
         layer.shadowOpacity = 0
-        
-        updateColors()
     }
 
     override var isSelected: Bool {
@@ -45,7 +46,11 @@ class WREventCell: UICollectionViewCell {
         didSet {
             if let event = event {
                 titleLabel.text = event.title
+                viewColor = event.viewColor
+                textColor = event.textColor
             }
+            
+            updateColors()
         }
     }
     
@@ -56,11 +61,11 @@ class WREventCell: UICollectionViewCell {
     }
     
     func backgroundColorHighlighted(_ selected: Bool) -> UIColor {
-        return selected ? UIColor(hexString: "35b1f1")! : UIColor(hexString: "35b1f1")!.withAlphaComponent(0.1)
+        return selected ? viewColor : viewColor.withAlphaComponent(0.1)
     }
     
     func textColorHighlighted(_ selected: Bool) -> UIColor {
-        return selected ? UIColor.white : UIColor(hexString: "21729c")!
+        return selected ? textColor : .black
     }
     
     func borderColor() -> UIColor {

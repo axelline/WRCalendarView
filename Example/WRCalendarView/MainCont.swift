@@ -30,12 +30,8 @@ class MainCont: UIViewController {
         navigationItem.rightBarButtonItem = rightButton
         
         //add events
-        weekView.addEvent(event: WREvent.make(date: Date(), chunk: 2.hours, title: "#1"))
-        weekView.addEvent(event: WREvent.make(date: Date(), chunk: 1.hours, title: "#2"))
-        weekView.addEvent(event: WREvent.make(date: Date().add(90.minutes), chunk: 1.hours, title: "#3"))
-        weekView.addEvent(event: WREvent.make(date: Date().add(110.minutes), chunk: 1.hours, title: "#4"))
-
-        weekView.addEvent(event: WREvent.make(date: Date().add(1.days), chunk: 1.hours, title: "tomorrow"))
+        let event = WREvent(identifier: "111", startDate: Date().startOfDay.add(components: [.hour: 7]), stopDate: Date().startOfDay.add(components: [.hour: 9]), title: "XXXXXX", viewColor: .red, textColor: .yellow)
+        weekView.addEvent(event: event)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -163,7 +159,7 @@ extension MainCont: WRWeekViewDelegate {
         print(date)
     }
     
-    func selectEvent(_ event: WREvent) {
-        print(event.title)
+    func selectEvent(_ event: WREvent, view: UIView) {
+        print(event.title, event.identifier, view)
     }
 }

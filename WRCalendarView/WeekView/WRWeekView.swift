@@ -7,12 +7,11 @@
 //
 
 import UIKit
-import DateToolsSwift
 
 public protocol WRWeekViewDelegate: NSObjectProtocol  {
     func view(startDate: Date, interval: Int)
     func tap(date: Date)
-    func selectEvent(_ event: WREvent)
+    func selectEvent(_ event: WREvent, view: UIView)
 }
 
 public class WRWeekView: UIView {
@@ -32,6 +31,7 @@ public class WRWeekView: UIView {
     var calendarDate: Date!
     var events = [WREvent]()
     var eventBySection = [String: [WREvent]]()
+    var firstWeekday: Int = 2
     
     public weak var delegate: WRWeekViewDelegate?
     
@@ -189,7 +189,7 @@ public class WRWeekView: UIView {
     
     fileprivate func groupEventsBySection() {
         eventBySection = events.group {
-            if let date = $0.beginning {
+            if let date = $0.startDate {
                 return dateFormatter.string(from: date)
             } else {
                 return ""
@@ -201,8 +201,9 @@ public class WRWeekView: UIView {
         switch calendarType {
         case .week:
             daysToShowOnScreen = 7
-            let weekComponent = Calendar.current.dateComponents([.yearForWeekOfYear, .weekOfYear], from: calendarDate)
-            startDate = Calendar.current.date(from: weekComponent)
+            var calendar = Calendar.current
+            calendar.firstWeekday = firstWeekday
+            startDate = calendar.date(from: calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: calendarDate))
         case .day:
             daysToShowOnScreen = 1
             startDate = calendarDate
@@ -210,7 +211,7 @@ public class WRWeekView: UIView {
 
         currentPage = Int(pageCount / 2) + 1
         daysToShow = daysToShowOnScreen * pageCount
-        initDate = startDate - (daysToShowOnScreen * (currentPage - 1)).days
+        initDate = startDate.add(components: [.day: -(daysToShowOnScreen * (currentPage - 1))])
         
         DispatchQueue.main.async { [unowned self] in
             self.layoutSubviews()
@@ -240,7 +241,7 @@ public class WRWeekView: UIView {
         DispatchQueue.main.async { [unowned self] in
             self.loading = true
             self.daysToShow = self.daysToShow + self.daysToShowOnScreen
-            self.initDate = self.initDate - self.daysToShowOnScreen.days
+            self.initDate = self.initDate.add(components: [.day: -self.daysToShowOnScreen])
             self.forceReload(false)
             self.setCurrentPage(self.currentPage + 1, animated: false)
             self.loading = false
@@ -305,10 +306,11 @@ extension WRWeekView: UICollectionViewDelegate, UICollectionViewDataSource {
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let date = flowLayout.dateForColumnHeader(at: indexPath)
         let key = dateFormatter.string(from: date)
+        let v = collectionView.cellForItem(at: indexPath)!
         
         if let events = eventBySection[key], indexPath.item < events.count {
             let event = events[indexPath.item]
-            delegate?.selectEvent(event)
+            delegate?.selectEvent(event, view: v)
         }
     }
     
@@ -413,7 +415,7 @@ extension WRWeekView: UICollectionViewDelegate, UICollectionViewDataSource {
 
 extension WRWeekView: WRWeekViewFlowLayoutDelegate {
     func collectionView(_ collectionView: UICollectionView, layout: WRWeekViewFlowLayout, dayForSection section: Int) -> Date {
-        let date = initDate + section.days
+        let date = initDate.add(components: [.day: section])
         return date
     }
     
@@ -423,7 +425,7 @@ extension WRWeekView: WRWeekViewFlowLayoutDelegate {
 
         if let events = eventBySection[key] {
             let event = events[indexPath.item]
-            return event.beginning!
+            return event.startDate!
         } else {
             fatalError()
         }
@@ -435,7 +437,7 @@ extension WRWeekView: WRWeekViewFlowLayoutDelegate {
         
         if let events = eventBySection[key] {
             let event = events[indexPath.item]
-            return event.end!
+            return event.stopDate!
         } else {
             fatalError()
         }

@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import DateToolsSwift
 
 class WRCurrentTimeIndicator: UICollectionReusableView {
     @IBOutlet weak var timeLbl: UILabel!
@@ -16,7 +15,7 @@ class WRCurrentTimeIndicator: UICollectionReusableView {
         super.awakeFromNib()
         dateFormatter.dateFormat = "HH:mm"
         
-        let timer = Timer(fireAt: Date() + 1.minutes, interval: TimeInterval(60), target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
+        let timer = Timer(fireAt: Date().add(components: [.minute: 1]), interval: TimeInterval(60), target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
         RunLoop.current.add(timer, forMode: .defaultRunLoopMode)
         
         updateTimer()
