@@ -30,8 +30,10 @@ class MainCont: UIViewController {
         navigationItem.rightBarButtonItem = rightButton
         
         //add events
-        let event = WREvent(identifier: "111", startDate: Date().startOfDay.add(components: [.hour: 7]), stopDate: Date().startOfDay.add(components: [.hour: 9]), title: "XXXXXX", viewColor: .red, textColor: .yellow)
-        weekView.addEvent(event: event)
+        let event1 = WREvent(identifier: "111", startDate: Date().startOfDay.add(components: [.hour: 7]), stopDate: Date().startOfDay.add(components: [.hour: 9]), title: "XXXXXX", viewColor: .red, textColor: .yellow)
+        let event2 = WREvent(identifier: "222", startDate: Date().startOfDay.add(components: [.hour: 7, .day: 1]), stopDate: Date().startOfDay.add(components: [.hour: 9, .day: 1]), title: "YYYYYY", viewColor: .green, textColor: .yellow)
+        weekView.addEvent(event: event1)
+        weekView.addEvent(event: event2)
     }
 
     override func viewDidAppear(_ animated: Bool) {

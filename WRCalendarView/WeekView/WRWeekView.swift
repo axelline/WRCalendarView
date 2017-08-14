@@ -130,6 +130,10 @@ public class WRWeekView: UIView {
         components.hour = hour
         components.minute = minute
         
+        if let idx = collectionView.indexPathsForSelectedItems?.first {
+            collectionView.deselectItem(at: idx, animated: true)
+        }
+        
         delegate?.tap(date: Calendar.current.date(from: components)!)
     }
     
