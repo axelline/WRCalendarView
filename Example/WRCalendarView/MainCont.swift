@@ -21,17 +21,13 @@ class MainCont: UIViewController {
         
         setupCalendarData()
         
-        let title = prepareNavigationBarMenuTitleView()
-        prepareNavigationBarMenu(title)
-        updateMenuContentOffsets()
-        
         //add today button
         let rightButton = UIBarButtonItem(title: "Today", style: .plain, target: self, action: #selector(moveToToday))
         navigationItem.rightBarButtonItem = rightButton
         
         //add events
-        let event1 = WREvent(identifier: "111", startDate: Date().startOfDay.add(components: [.hour: 7]), stopDate: Date().startOfDay.add(components: [.hour: 9]), title: "XXXXXX", viewColor: .red, textColor: .yellow)
-        let event2 = WREvent(identifier: "222", startDate: Date().startOfDay.add(components: [.hour: 7, .day: 1]), stopDate: Date().startOfDay.add(components: [.hour: 9, .day: 1]), title: "YYYYYY", viewColor: .green, textColor: .yellow)
+        let event1 = WREvent(identifier: "111", startDate: Date().dateAtStartOf(.day).dateByAdding(7, .hour).date, stopDate: Date().dateAtStartOf(.day).dateByAdding(9, .hour).date, title: "XXXXXX", viewColor: .red, textColor: .yellow)
+        let event2 = WREvent(identifier: "222", startDate: Date().dateAtStartOf(.day).dateByAdding(7, .hour).dateByAdding(1, .day).date, stopDate: Date().dateAtStartOf(.day).dateByAdding(9, .hour).dateByAdding(1, .day).date, title: "YYYYYY", viewColor: .green, textColor: .yellow)
         weekView.addEvent(event: event1)
         weekView.addEvent(event: event2)
     }
@@ -39,10 +35,14 @@ class MainCont: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+        let title = prepareNavigationBarMenuTitleView()
+        navigationBarMenu = DropDownMenu(frame: view.bounds)
         navigationBarMenu.container = view
+        prepareNavigationBarMenu(title)
+        updateMenuContentOffsets()
     }
     
-    func moveToToday() {
+    @objc func moveToToday() {
         weekView.setCalendarDate(Date(), animated: true)
     }
     
@@ -70,7 +70,6 @@ class MainCont: UIViewController {
     }
     
     func prepareNavigationBarMenu(_ currentChoice: String) {
-        navigationBarMenu = DropDownMenu(frame: view.bounds)
         navigationBarMenu.delegate = self
         
         let firstCell = DropDownMenuCell()
@@ -96,7 +95,7 @@ class MainCont: UIViewController {
         
         // If we set the container to the controller view, the value must be set
         // on the hidden content offset (not the visible one)
-        navigationBarMenu.visibleContentOffset =
+        navigationBarMenu.visibleContentInsets.top =
             navigationController!.navigationBar.frame.size.height + statusBarHeight()
         
         // For a simple gray overlay in background
@@ -105,7 +104,7 @@ class MainCont: UIViewController {
         navigationBarMenu.backgroundAlpha = 0.7
     }
     
-    func willToggleNavigationBarMenu(_ sender: DropDownTitleView) {
+    @objc func willToggleNavigationBarMenu(_ sender: DropDownTitleView) {
         if sender.isUp {
             navigationBarMenu.hide()
         } else {
@@ -114,14 +113,14 @@ class MainCont: UIViewController {
     }
     
     func updateMenuContentOffsets() {
-        navigationBarMenu.visibleContentOffset =
+        navigationBarMenu.visibleContentInsets.top =
             navigationController!.navigationBar.frame.size.height + statusBarHeight()
     }
     
-    func didToggleNavigationBarMenu(_ sender: DropDownTitleView) {
+    @objc func didToggleNavigationBarMenu(_ sender: DropDownTitleView) {
     }
     
-    func choose(_ sender: AnyObject) {
+    @objc func choose(_ sender: AnyObject) {
         if let sender = sender as? DropDownMenuCell {
             titleView.title = sender.textLabel!.text
         

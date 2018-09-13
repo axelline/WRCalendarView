@@ -33,7 +33,7 @@ class WRColumnHeader: UICollectionReusableView {
                 weekdayLbl.text = dateFormatter.weekdaySymbols[weekday]
                 weekdayLbl.textColor = .black
                 
-                if date.isInSameDayOf(date: Date()) {
+                if date.isInside(date: Date(), granularity: .day) {
                     dayLbl.textColor = .white
                     dayLbl.backgroundColor = .red
                     weekdayLbl.font = UIFont.boldSystemFont(ofSize: weekdayLbl.font.pointSize)

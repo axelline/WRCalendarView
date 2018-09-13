@@ -15,13 +15,13 @@ class WRCurrentTimeIndicator: UICollectionReusableView {
         super.awakeFromNib()
         dateFormatter.dateFormat = "HH:mm"
         
-        let timer = Timer(fireAt: Date().add(components: [.minute: 1]), interval: TimeInterval(60), target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
-        RunLoop.current.add(timer, forMode: .defaultRunLoopMode)
+        let timer = Timer(fireAt: Date().dateByAdding(1, .minute).date, interval: TimeInterval(60), target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
+        RunLoop.current.add(timer, forMode: RunLoop.Mode.default)
         
         updateTimer()
     }
     
-    func updateTimer() {
+    @objc func updateTimer() {
         timeLbl.text = dateFormatter.string(from: Date())
     }
 }

@@ -1,3 +1,5 @@
+platform :ios, '10.0'
+
 use_frameworks!
 
 target 'WRCalendarView_Example' do
@@ -7,7 +9,8 @@ target 'WRCalendarView_Example' do
   target 'WRCalendarView_Tests' do
     inherit! :search_paths
 
-    pod 'Quick', '~> 1.0.0'
-    pod 'Nimble', '~> 5.1.1'
+    pod 'Quick'
+    pod 'Nimble'
+    pod 'SwiftLint'
   end
 end

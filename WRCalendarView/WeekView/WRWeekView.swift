@@ -122,7 +122,7 @@ public class WRWeekView: UIView {
         flowLayout.sectionWidth = (frame.width - flowLayout.rowHeaderWidth) / CGFloat(daysToShowOnScreen)
     }
     
-    func tapHandler(_ recognizer: UITapGestureRecognizer) {
+    @objc func tapHandler(_ recognizer: UITapGestureRecognizer) {
         let point = recognizer.location(in: self)
         
         var components = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: getDateForX(point.x))
@@ -215,7 +215,7 @@ public class WRWeekView: UIView {
 
         currentPage = Int(pageCount / 2) + 1
         daysToShow = daysToShowOnScreen * pageCount
-        initDate = startDate.add(components: [.day: -(daysToShowOnScreen * (currentPage - 1))])
+        initDate = startDate.dateByAdding(-(daysToShowOnScreen * (currentPage - 1)), .day).date
         
         DispatchQueue.main.async { [unowned self] in
             self.layoutSubviews()
@@ -245,7 +245,7 @@ public class WRWeekView: UIView {
         DispatchQueue.main.async { [unowned self] in
             self.loading = true
             self.daysToShow = self.daysToShow + self.daysToShowOnScreen
-            self.initDate = self.initDate.add(components: [.day: -self.daysToShowOnScreen])
+            self.initDate = self.initDate.dateByAdding(-self.daysToShowOnScreen, .day).date
             self.forceReload(false)
             self.setCurrentPage(self.currentPage + 1, animated: false)
             self.loading = false
@@ -419,7 +419,7 @@ extension WRWeekView: UICollectionViewDelegate, UICollectionViewDataSource {
 
 extension WRWeekView: WRWeekViewFlowLayoutDelegate {
     func collectionView(_ collectionView: UICollectionView, layout: WRWeekViewFlowLayout, dayForSection section: Int) -> Date {
-        let date = initDate.add(components: [.day: section])
+        let date = initDate.dateByAdding(section, .day).date
         return date
     }
     
