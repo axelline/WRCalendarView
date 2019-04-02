@@ -4,7 +4,7 @@ use_frameworks!
 
 target 'WRCalendarView_Example' do
   pod 'WRCalendarView', :path => '../'
-  pod 'DropDownMenuKit'
+  pod 'DropDownMenuKit', :git => 'https://github.com/qmathe/DropDownMenuKit.git'
   
   target 'WRCalendarView_Tests' do
     inherit! :search_paths
