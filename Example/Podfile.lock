@@ -1,10 +1,10 @@
 PODS:
-  - DropDownMenuKit (0.8.5)
-  - Nimble (8.0.1)
-  - Quick (2.0.0)
-  - SwiftDate (6.0.1)
-  - SwiftLint (0.31.0)
-  - WRCalendarView (1.1):
+  - DropDownMenuKit (0.9)
+  - Nimble (9.0.0)
+  - Quick (3.0.0)
+  - SwiftDate (6.3.1)
+  - SwiftLint (0.41.0)
+  - WRCalendarView (1.3):
     - SwiftDate
 
 DEPENDENCIES:
@@ -15,7 +15,7 @@ DEPENDENCIES:
   - WRCalendarView (from `../`)
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  trunk:
     - Nimble
     - Quick
     - SwiftDate
@@ -29,17 +29,17 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   DropDownMenuKit:
-    :commit: 86a9eefadf297d2014bbe7dfb3e11699dabc68ca
+    :commit: 30d99592bceced57ab3e2b9394833e44c1398275
     :git: https://github.com/qmathe/DropDownMenuKit.git
 
 SPEC CHECKSUMS:
-  DropDownMenuKit: 24713d2eb329ccd6b2de521222cd70e876a96b31
-  Nimble: 45f786ae66faa9a709624227fae502db55a8bdd0
-  Quick: ce1276c7c27ba2da3cb2fd0cde053c3648b3b22d
-  SwiftDate: 2b3ef6b8fc30c22391033d1acad5622a51660016
-  SwiftLint: 7a0227733d786395817373b2d0ca799fd0093ff3
-  WRCalendarView: fc2cc00cdf82d215b36699a81d4401ef5ce107d2
+  DropDownMenuKit: 9046ae8d45242dee49069ab237ba37cb7678319a
+  Nimble: 3b4ec3fd40f1dc178058e0981107721c615643d8
+  Quick: 6d9559f40647bc4d510103842ef2fdd882d753e2
+  SwiftDate: 72d28954e8e1c6c1c0f917ccc8005e4f83c7d4b2
+  SwiftLint: c585ebd615d9520d7fbdbe151f527977b0534f1e
+  WRCalendarView: f0d8da093bc6b8f5354f4e957287f3f849bad33c
 
 PODFILE CHECKSUM: 5865ffa1cdfe6c89a2c5a2fe6fbdc1f51cec9d75
 
-COCOAPODS: 1.6.1
+COCOAPODS: 1.10.0
